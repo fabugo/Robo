@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE seeds SYSTEM "seeds.dtd">
+<seeds>
+    <seed>
+        <url>www.uefs.br</url>
+        <visited>false</visited>
+    </seed>
+    <seed>
+        <url>www.uneb.br</url>
+        <visited>false</visited>
+    </seed>
+</seeds>
