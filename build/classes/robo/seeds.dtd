@@ -2,3 +2,4 @@
 <!ELEMENT seed (url, visited?)>
 <!ELEMENT url (#PCDATA)>
 <!ELEMENT visited (#PCDATA)>
+

@@ -1,0 +1,6 @@
+<!ELEMENT centroides (centroide+)>
+<!ELEMENT centroide (termo, peso, quantidade)>
+<!ELEMENT termo (#PCDATA)>
+<!ELEMENT peso (#PCDATA)>
+<!ELEMENT quantidade (#PCDATA)>
+
