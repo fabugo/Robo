@@ -40,20 +40,20 @@ import org.xml.sax.SAXException;
  */
 public class ParseXML {
 
-    private static String ENDERECO_SEEDS = "src\\robo\\seeds.xml";
-    private static String ENDERECO_CENTROIDES = "src\\robo\\centroides.xml";
-    private List<Seed> seeds;
+    private static final String ENDERECO_SEEDS = "src\\robo\\seeds.xml",
+                                ENDERECO_CENTROIDES = "src\\robo\\centroides.xml";
+    private final List<Seed> seeds;
 
     public List<Seed> getSeeds() {
         return seeds;
     }
 
     public void addSeed(Elements links) {
-        
         for (org.jsoup.nodes.Element link : links) {
             //System.out.println("\nlink : " + link.attr("href")); // link
             //System.out.println("text : " + link.text()); // texto PESO DE TEXTO DE LINK
-            if (!seeds.contains(link)) {
+            Seed s = new Seed(link.attr("href"), "");
+            if (!seeds.contains(s)) {
                 try {
                     java.net.URL z;
                     z = new java.net.URL(s.URL);
@@ -65,7 +65,7 @@ public class ParseXML {
                 } catch (IOException ex) {
                     System.out.println("Não foi possível conectar");
                 }
-                seeds.add(link.);
+                seeds.add(s);
             }
 
             System.out.println("QUANTIDADE DE SEMENTES: " + seeds.size());

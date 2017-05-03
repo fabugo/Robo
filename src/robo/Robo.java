@@ -5,13 +5,10 @@
  */
 package robo;
 
-import java.io.*;
-import java.text.SimpleDateFormat;
+import java.io.IOException;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.jsoup.Jsoup;
-import org.jsoup.select.Elements;
 
 /**
  *
@@ -33,16 +30,15 @@ public class Robo {
             Seed get = seeds.get(k);
             if (get.VISITED.equals("")) {
                 System.out.println(get.URL);
-                web.visitar(get);                
+                try {                
+                    xml.gravarCentroidesXML(web.visitar(get));
+                } catch (IOException ex) {
+                    Logger.getLogger(Robo.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                xml.addSeed(web.getLinks());
+            xml.gravarXML();
             }
         }
-        xml.gravarXML();
-        
-        while (true) {
-            xml.gravarCentroidesXML(web.visitar(getNextSeed()));
-            xml.addSeed(s);
-        }
-
         //walkingIn(Jsoup.connect(getNextLink()).get());
     }
 }
