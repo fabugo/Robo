@@ -5,40 +5,26 @@
  */
 package robo;
 
-import java.io.IOException;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-/**
- *
- * @author aluno
- */
 public class Robo {
     
     private static ParseXML xml;
     private static ParserHTML web;
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
         web = new ParserHTML();
         xml = new ParseXML();
         List<Seed> seeds = xml.getSeeds();
         for (int k = 0; k < seeds.size(); k++) {
             Seed get = seeds.get(k);
-            if (get.VISITED.equals("")) {
+            Iterator i = web.visit(get);
+            if (get.VISITED.equals("") & i!=null) {
                 System.out.println(get.URL);
-                try {                
-                    xml.gravarCentroidesXML(web.visitar(get));
-                } catch (IOException ex) {
-                    Logger.getLogger(Robo.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                xml.saveCentroidsXML(i);
                 xml.addSeed(web.getLinks());
-            xml.gravarXML();
+            xml.saveXML();
             }
         }
-        //walkingIn(Jsoup.connect(getNextLink()).get());
     }
 }

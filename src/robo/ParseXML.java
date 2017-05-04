@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package robo;
 
 import com.sun.org.apache.xml.internal.serialize.OutputFormat;
@@ -34,20 +30,24 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-/**
- *
- * @author NOTEBOOK
- */
 public class ParseXML {
 
-    private static final String ENDERECO_SEEDS = "src\\robo\\seeds.xml",
+    private static String ENDERECO_SEEDS = "src\\robo\\seeds.xml",
                                 ENDERECO_CENTROIDES = "src\\robo\\centroides.xml";
     private final List<Seed> seeds;
-
+    
+    /**
+     * 
+     * @return lista de sementes
+     */
     public List<Seed> getSeeds() {
         return seeds;
     }
 
+    /**
+     * 
+     * @param links a serem adicionados nas sementes
+     */
     public void addSeed(Elements links) {
         for (org.jsoup.nodes.Element link : links) {
             //System.out.println("\nlink : " + link.attr("href")); // link
@@ -71,17 +71,23 @@ public class ParseXML {
             System.out.println("QUANTIDADE DE SEMENTES: " + seeds.size());
 
             if (seeds.size() % 500 == 0) {
-                this.gravarXML();
+                this.saveXML();
             }
         }
 
     }
 
+    /**
+     * Ler XML e cria lista de links
+     */
     public ParseXML() {
         seeds = parseSeedsXML();
     }
 
-    public void gravarXML() {
+    /**
+     * Escreve XML
+     */
+    public void saveXML() {
 
         OutputStream streamOut = null;
         try {
@@ -98,13 +104,13 @@ public class ParseXML {
                 Seed sem = i.next();
                 Element sement = doc.createElement("seed");
 
-                Element url_semente = doc.createElement("url");
-                url_semente.setTextContent(sem.URL);
-                sement.appendChild(url_semente);
+                Element url_seed = doc.createElement("url");
+                url_seed.setTextContent(sem.URL);
+                sement.appendChild(url_seed);
 
-                Element dt_visita = doc.createElement("visited");
-                dt_visita.setTextContent(sem.VISITED);
-                sement.appendChild(dt_visita);
+                Element dt_visit = doc.createElement("visited");
+                dt_visit.setTextContent(sem.VISITED);
+                sement.appendChild(dt_visit);
 
                 rootElement.appendChild(sement);
 
@@ -141,6 +147,10 @@ public class ParseXML {
 
     }
 
+    /**
+     * 
+     * @return lista de sementes
+     */
     private List<Seed> parseSeedsXML() {
         List<Seed> s = new ArrayList<Seed>();
         try {
@@ -174,7 +184,11 @@ public class ParseXML {
         return s;
     }
 
-    void gravarCentroidesXML(Iterator<Centroide> iterator) {
+    /**
+     * 
+     * @param iterator de centroides a serem gravados no XML
+     */
+    void saveCentroidsXML(Iterator<Centroid> iterator) {
         OutputStream streamOut = null;
         try {
 
@@ -185,21 +199,21 @@ public class ParseXML {
             Element rootElement = doc.createElement("centroides");
             doc.appendChild(rootElement);
 
-            Iterator<Centroide> i = iterator;
+            Iterator<Centroid> i = iterator;
             while (i.hasNext()) {
-                Centroide cent = i.next();
+                Centroid cent = i.next();
                 Element centroide = doc.createElement("centroide");
 
                 Element termo_centroide = doc.createElement("termo");
-                termo_centroide.setTextContent(cent.getTermo());
+                termo_centroide.setTextContent(cent.getData());
                 centroide.appendChild(termo_centroide);
 
                 Element peso = doc.createElement("peso");
-                peso.setTextContent(Integer.toString(cent.getPeso()));
+                peso.setTextContent(Integer.toString(cent.getWeight()));
                 centroide.appendChild(peso);
 
                 Element quantidade = doc.createElement("quantidade");
-                quantidade.setTextContent(Integer.toString(cent.getQtd()));
+                quantidade.setTextContent(Integer.toString(cent.getFrequency()));
                 centroide.appendChild(quantidade);
 
                 rootElement.appendChild(centroide);
